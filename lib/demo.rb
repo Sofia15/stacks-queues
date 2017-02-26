@@ -1,5 +1,7 @@
-require './Stack.rb'
-require './Queue.rb'
+###### This file is without connection Stack and Queue classes ############
+
+# require './Stack.rb'
+# require './Queue.rb'
 
 class JobSimulation
   attr_reader :workers, :waiting, :roll, :fired, :hired
@@ -7,21 +9,22 @@ class JobSimulation
   def initialize (jobs_available, job_seekers)
     @waiting = Queue.new
     @workers = Stack.new
-
-    i = 1
+    @i = 1
+    # @workders = @waiting[0...jobs_available]
     jobs_available.times do
-      @workers.push("Worker #{i}")
-      i += 1
+      @workers.push("Worker #{@i}")
+      @i += 1
     end
 
-    while i <= job_seekers
-      @waiting.enqueue("Worker #{i}")
-      i += 1
+    while @i <= job_seekers
+      @waiting.enqueue("Worker #{@i}")
+      @i += 1
     end
     @jobs_available = jobs_available #input
     @fired = []
     @hired = []
   end
+  #get rid of roll number from the waiting list and add roll number of workers from employed list
 
   def cycle
     @roll = rand(1..@jobs_available)
@@ -58,21 +61,3 @@ until gets.chomp != ""
   puts "Employed: #{sim.workers}"
   puts "Waitlist: #{sim.waiting}"
 end
-
-## RUN SAMPLE ##
-# ------------------------------
-# Before the simulation starts
-# Employed: ["Worker 1", "Worker 2", "Worker 3", "Worker 4", "Worker 5", "Worker 6"]
-# Waitlist: ["Worker 7", "Worker 8", "Worker 9", "Worker 10"]
-# ------------------------------
-# <enter to cycle>
-#
-# -------Cycle 1-------
-# Managers roll a 5
-# Employed: ["Worker 1", "Worker 7", "Worker 8", "Worker 9", "Worker 10", "Worker 6"]
-# Waitlist: ["Worker 5", "Worker 4", "Worker 3", "Worker 2"]
-#
-# -------Cycle 2-------
-# Managers roll a 6
-# Employed: ["Worker 5", "Worker 4", "Worker 3", "Worker 2", "Worker 6", "Worker 10"]
-# Waitlist: ["Worker 9", "Worker 8", "Worker 7", "Worker 1"]
